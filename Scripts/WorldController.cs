@@ -103,7 +103,7 @@ public class WorldController : MonoBehaviour
         {
             for (int dy = -1; dy <= 1; dy++)
             {
-                Vector2Int chunk = new Vector2Int(center.x + dx, center.y + dy);
+                Vector2Int chunk = new(center.x + dx, center.y + dy);
                 LoadChunk(chunk);
             }
         }
