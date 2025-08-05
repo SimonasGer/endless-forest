@@ -4,6 +4,7 @@ using UnityEngine.InputSystem;
 public class Bullet : MonoBehaviour
 {
     [SerializeField] private float speed = 25.0f;
+    [SerializeField] private int damage = 5;
     [SerializeField] private float lifetime = 3f;
 
     private Rigidbody2D rb;
@@ -35,6 +36,17 @@ public class Bullet : MonoBehaviour
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        Destroy(gameObject); // Destroy on impact
+        if (collision.gameObject.TryGetComponent<Zombie>(out Zombie zombie))
+        {
+            zombie.health -= damage;
+
+            if (zombie.health <= 0)
+            {
+                Destroy(zombie.gameObject);
+                FindFirstObjectByType<EnemyController>().zombieCount--; // Optional cleanup
+            }
+        }
+
+        Destroy(gameObject);
     }
 }
